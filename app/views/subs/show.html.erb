@@ -1,0 +1,43 @@
+<h1><%=@sub.title%></h1>
+<p><%=@sub.description%></p>
+
+<% @sub.posts.each do |post| %>
+
+  <h2><%= post.title %><br></h2>
+  <% if post.url %>
+    <%=simple_format(post.url, "\n")%>
+  <% end %>
+  <% if post.content %>
+    <%=simple_format(post.content, "\n")%>
+  <% end %>
+  By: <%= post.author.username %>
+
+  <% if post.author_id == current_user.id %>
+    <%= button_to 'Remove Post', post_url(post.id), method: :delete %>
+    <%= link_to 'Edit Post', edit_post_url(post.id)%>
+  <% end %>
+<% end %><br><br>
+
+<h2>Add Post</h2>
+<form class="" action="<%=sub_posts_url(@sub.id)%>" method="post">
+  <%= auth_token %>
+
+<label>Title<br><input type="text" name="post[title]"></label><br>
+<label>URL<br><input type="text" name="post[url]"></label><br>
+<label>Content<br>
+  <textarea name="post[content]" rows="8" cols="80"></textarea>
+</label><br>
+
+<input type="hidden" name="post[sub_ids][]" value="">
+<% Sub.all.each do |sub| %>
+  <input type="checkbox" name="post[sub_ids][]" value="<%=sub.id%>"><%=sub.title%>
+<% end %>
+
+<input type="submit" value="Create Post">
+</form>
+
+
+<%= link_to 'All Subs', subs_url %><br>
+<% if @sub.moderator_id == current_user.id %>
+  <%= link_to 'Edit Sub', edit_sub_url(@sub) %>
+<% end %>

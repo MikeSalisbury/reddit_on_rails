@@ -1,0 +1,22 @@
+<h1>Edit Post</h1>
+<form class="" action="<%=post_url(@post.id)%>" method="post">
+  <input type="hidden" name="_method" value="patch">
+  <%= auth_token %>
+
+<label>Title<br><input type="text" name="post[title]" value="<%=@post.title%>"></label><br>
+<label>URL<br><input type="text" name="post[url]" value="<%=@post.url%>"></label><br>
+<label>Content<br>
+  <textarea name="post[content]" rows="8" cols="80"><%=@post.content  %></textarea>
+</label><br>
+
+<label>
+  <input type="hidden" name="post[sub_ids][]" value="">
+  <input type="checkbox" name="post[sub_ids][]" value="1" <%='checked' if @post.sub_ids.include?(1)%>>1
+  <input type="checkbox" name="post[sub_ids][]" value="2" <%='checked' if @post.sub_ids.include?(2)%>>2
+  <input type="checkbox" name="post[sub_ids][]" value="3" <%='checked' if @post.sub_ids.include?(3)%>>3
+  <input type="checkbox" name="post[sub_ids][]" value="4" <%='checked' if @post.sub_ids.include?(4)%>>4
+  <input type="checkbox" name="post[sub_ids][]" value="5" <%='checked' if @post.sub_ids.include?(5)%>>5
+</label>
+
+<input type="submit" value="Update Post">
+</form>
